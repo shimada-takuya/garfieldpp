@@ -1,0 +1,217 @@
+Check Keywords Warn
+
+$Vo = -2690
+
+Header
+  Mesh DB "." "wire_tpc"
+End
+
+Simulation
+  Coordinate System = Cartesian 3D
+  Simulation Type = Steady State
+  Steady State Max Iterations = 1
+  Output File = "wire.result"
+  Post File = "wire.ep"
+End
+
+Constants
+  Permittivity Of Vacuum = 8.8542e-12
+End
+
+! Gas
+Body 1
+  Equation = 1
+  Material = 1
+End
+
+! cage line
+Body 2
+ Equation = 1
+  Material = 3
+End
+
+! GEM
+Body 3
+  Equation = 1
+  Material = 3
+End
+
+! Mesh
+Body 4
+  Equation = 1
+  Material = 3
+End
+
+
+
+! 9 wires
+Body 5
+  Equation = 1
+  Material = 3
+End
+Body 6
+  Equation = 1
+  Material = 3
+End
+Body 7
+  Equation = 1
+  Material = 3
+End
+Body 8
+  Equation = 1
+  Material = 3
+End
+Body 9
+  Equation = 1
+  Material = 3
+End
+Body 10
+  Equation = 1
+  Material = 3
+End
+Body 11
+  Equation = 1
+  Material = 3
+End
+Body 12
+  Equation = 1
+  Material = 3
+End
+Body 13
+  Equation = 1
+  Material = 3
+End
+
+
+
+Equation 1
+  Active Solvers(1) = 1
+  Calculate Electric Energy = True
+End
+
+
+
+Solver 1
+  Equation = Stat Elec Solver
+  Variable = Potential
+  Variable DOFs = 1
+  Procedure = "StatElecSolve" "StatElecSolver"
+  Calculate Electric Field = True
+  Calculate Electric Flux = False
+  Linear System Solver = Iterative
+  Linear System Iterative Method = BiCGStab
+  Linear System Max Iterations = 2000
+  Linear System Abort Not Converged = True
+  Linear System Convergence Tolerance = 1.0e-10
+  Linear System Preconditioning = ILU1
+  Steady State Convergence Tolerance = 5.0e-7
+!  Adaptive Mesh Refinement = True
+!  Adaptive Remesh = True
+!  Adaptive Save Mesh = True
+!  Adaptive Error Limit = 1.0e-12
+End
+
+Solver 2
+  Exec Solver = after all
+  exec interval = 1
+  Equation = "ResultOutput"
+  Procedure = "ResultOutputSolve" "ResultOutputSolver"
+  Output File Name = "wire_vtu"
+  Output Format = vtu
+  Vtu Format = Logical True
+  Scalar Field 1 = Potential
+End
+
+
+! Gas
+Material 1
+  Relative Permittivity = 1
+End
+
+! PI
+Material 2
+  Relative Permittivity = 3.5
+End
+
+! Copper
+Material 3
+  Relative Permittivity = 1.0e10
+End
+
+
+
+! Gas
+! Boundary Condition 1
+!   Target Boundaries = 1
+!   Potential = 0
+! End
+
+! cage
+Boundary Condition 1
+  Target Boundaries = 1
+  Potential = 0
+End
+
+! GEM
+Boundary Condition 2
+  Target Boundaries = 2
+  !Potential = 760
+  Potential = -690
+End
+
+! Mesh
+Boundary Condition 3
+  Target Boundaries = 3
+  Potential = -2690
+  !Potential = 0
+End
+
+
+! wires 
+Boundary Condition 4
+  Target Boundaries = 4
+  Potential = $Vo + 1800
+End
+Boundary Condition 5
+  Target Boundaries = 5
+  Potential = $Vo + 1600
+End
+Boundary Condition 6
+  Target Boundaries = 6
+  Potential = $Vo + 1400
+End
+Boundary Condition 7
+  Target Boundaries = 7
+  Potential = $Vo + 1200
+End
+Boundary Condition 8
+  Target Boundaries = 8
+  Potential = $Vo + 1000
+End
+Boundary Condition 9
+  Target Boundaries = 9
+  Potential = $Vo + 800
+End
+Boundary Condition 10
+  Target Boundaries = 10
+  Potential = $Vo + 600
+End
+Boundary Condition 11
+  Target Boundaries = 11
+  Potential = $Vo + 400
+End
+Boundary Condition 12
+  Target Boundaries = 12
+  Potential = $Vo + 200
+End
+
+
+
+
+
+
+
+
+
+
+
